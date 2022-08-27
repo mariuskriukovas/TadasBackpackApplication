@@ -1,3 +1,12 @@
+CREATE TABLE traveler
+(
+    id   IDENTITY PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+ALTER TABLE traveler
+    ADD UNIQUE (name);
+
 CREATE TABLE item
 (
     id                 IDENTITY PRIMARY KEY,
@@ -7,11 +16,8 @@ CREATE TABLE item
     provide_kilometers DOUBLE       NULL
 );
 
-CREATE TABLE traveler
-(
-    id   IDENTITY PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
-);
+ALTER TABLE item
+    ADD UNIQUE (name, weight);
 
 CREATE TABLE travel
 (
@@ -20,6 +26,9 @@ CREATE TABLE travel
     distance_kilometers DOUBLE       NOT NULL,
     traveler_id         INT
 );
+
+ALTER TABLE travel
+    ADD UNIQUE (name, traveler_id, distance_kilometers);
 
 ALTER TABLE travel
     ADD FOREIGN KEY (traveler_id)
@@ -33,9 +42,11 @@ CREATE TABLE bag_item
 );
 
 ALTER TABLE bag_item
+    ADD UNIQUE (travel_id, item_id);
+
+ALTER TABLE bag_item
     ADD FOREIGN KEY (travel_id)
         REFERENCES travel (id);
-
 
 ALTER TABLE bag_item
     ADD FOREIGN KEY (item_id)
