@@ -1,0 +1,5 @@
+CREATE TABLE test
+(
+    id IDENTITY PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
