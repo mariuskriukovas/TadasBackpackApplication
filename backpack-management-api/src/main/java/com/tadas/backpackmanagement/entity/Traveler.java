@@ -18,6 +18,6 @@ public class Traveler {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 40)
+    @Column(name = "name", length = 100)
     private String name;
 }

@@ -5,7 +5,7 @@ import lombok.extern.jackson.Jacksonized;
 
 @Data
 @Jacksonized
-public class TravelerListView {
+public class TravelerView {
     Long id;
     String name;
 }

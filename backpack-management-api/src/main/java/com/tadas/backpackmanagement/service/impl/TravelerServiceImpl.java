@@ -1,7 +1,7 @@
 package com.tadas.backpackmanagement.service.impl;
 
 import com.tadas.backpackmanagement.mapper.TravelerMapper;
-import com.tadas.backpackmanagement.model.view.TravelerListView;
+import com.tadas.backpackmanagement.model.view.TravelerView;
 import com.tadas.backpackmanagement.repository.TravelerRepository;
 import com.tadas.backpackmanagement.service.TravelerService;
 import lombok.AccessLevel;
@@ -22,7 +22,13 @@ public class TravelerServiceImpl implements TravelerService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<TravelerListView> findAllTravelers(Pageable pageable) {
+    public Page<TravelerView> findAllTravelers(Pageable pageable) {
         return travelerRepository.findAll(pageable).map(travelerMapper::toTravelerListView);
+    }
+
+    @Override
+    @Transactional
+    public void saveTraveler(TravelerView view) {
+        travelerRepository.save(travelerMapper.buildTravelerEntity(view));
     }
 }
