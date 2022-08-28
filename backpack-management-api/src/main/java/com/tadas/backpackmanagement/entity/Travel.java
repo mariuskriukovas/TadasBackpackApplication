@@ -6,21 +6,25 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "traveler")
+@Table(name = "travel")
 @SuperBuilder
 @NoArgsConstructor
 @Getter
 @Setter
-public class Traveler {
+public class Travel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "name", length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "traveler", fetch = FetchType.LAZY)
-    List<Travel> travel;
+    @Column(name = "distance_kilometers")
+    private Double distanceKilometers;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "traveler_id", nullable = false)
+    Traveler traveler;
 }
