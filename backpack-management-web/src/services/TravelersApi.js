@@ -7,6 +7,9 @@ export default {
     return (await api.get("v1/travelers", api.getPageableParams(pageble)))?.data
   },
   async addTraveler(data) {
-    return (await api.post("v1/travelers", api.mapToFormData(data)))
+    return (await api.post("v1/travelers", data))
+  },
+  async getTravelersList() {
+    return (await api.get("v1/travelers/list"))?.data
   },
 };
