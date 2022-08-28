@@ -24,9 +24,9 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="10">
-            <v-text-field v-model="name" clearable label="Vardas"></v-text-field>
+            <v-text-field v-model="name" clearable label="Vardas" hint="Vardai turi būti unikalūs"></v-text-field>
           </v-col>
-          <v-col class="mt-2" cols="12" sm="2">
+          <v-col cols="12" sm="2"  class="text-center justify-center mt-2">
             <v-btn color="primary" depressed @click="save">Saugoti</v-btn>
           </v-col>
         </v-row>
@@ -47,14 +47,14 @@ export default {
       {
         text: "ID",
         align: "start",
-        sortable: false,
+        sortable: true,
         value: "id",
-        width: '50px'
+        width: '100px'
       },
       {
         text: "Vardas",
         value: "name",
-        sortable: false,
+        sortable: true,
         align: "start",
       },
     ],

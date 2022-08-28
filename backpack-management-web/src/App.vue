@@ -4,8 +4,8 @@
       <v-container fluid>
         <v-card color="basil">
           <v-card-title class="text-center justify-center py-6">
-            <span class="text-h5">Tado kelionių aplikacija</span
-            >
+            <span class="text-h5">Tado kelionių aplikacija</span>
+            <v-icon right>mdi-dog-side</v-icon>
           </v-card-title>
           <v-tabs
             v-model="tab"
