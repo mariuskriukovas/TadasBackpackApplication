@@ -6,15 +6,14 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "traveler")
+@Table(name = "item")
 @SuperBuilder
 @NoArgsConstructor
 @Getter
 @Setter
-public class Traveler {
+public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +21,12 @@ public class Traveler {
     @Column(name = "name", length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "traveler", fetch = FetchType.LAZY)
-    List<Travel> travel;
+    @Column(name = "is_mandatory")
+    private Boolean isMandatory;
+
+    @Column(name = "weight")
+    private Double weight;
+
+    @Column(name = "provide_kilometers")
+    private Double provideKilometers;
 }
