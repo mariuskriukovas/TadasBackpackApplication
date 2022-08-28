@@ -24,9 +24,9 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="10">
-            <v-text-field v-model="name" clearable label="Vardas" hint="Vardai turi būti unikalūs"></v-text-field>
+            <v-text-field v-model="name" clearable hint="Vardai turi būti unikalūs" label="Vardas"></v-text-field>
           </v-col>
-          <v-col cols="12" sm="2"  class="text-center justify-center mt-2">
+          <v-col class="text-center justify-center mt-2" cols="12" sm="2">
             <v-btn color="primary" depressed @click="save">Saugoti</v-btn>
           </v-col>
         </v-row>
@@ -61,24 +61,21 @@ export default {
     items: [],
     options: {},
     totalElements: null,
-    toastSettings: {
-      position: "bottomCenter",
-    },
   }),
   computed: {},
   watch: {
     options: {
       async handler() {
-        await this.getItems()
+        await this.getTravelers()
       },
       deep: true,
     },
   },
   async mounted() {
-    await this.getItems()
+    await this.getTravelers()
   },
   methods: {
-    async getItems() {
+    async getTravelers() {
       const data = await TravelersApi.getTravelers(this.options)
       this.items = data?.content ?? []
       this.totalElements = data?.totalElements

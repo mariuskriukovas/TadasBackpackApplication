@@ -8,10 +8,10 @@
             <v-icon right>mdi-dog-side</v-icon>
           </v-card-title>
           <v-tabs
-            v-model="tab"
-            background-color="transparent"
-            color="basil"
-            grow
+              v-model="tab"
+              background-color="transparent"
+              color="basil"
+              grow
           >
             <v-tab v-for="item in items" :key="item.key">
               {{ item.name }}
@@ -32,12 +32,14 @@
             v-model="successAlert"
             dismissible
             type="success"
-        > Duomenys išsaugoti </v-alert>
+        > Duomenys išsaugoti
+        </v-alert>
         <v-alert
             v-model="errorAlert"
             dismissible
             type="error"
-        > Veiksmo atlikti nepavyko </v-alert>
+        > Veiksmo atlikti nepavyko
+        </v-alert>
       </v-container>
     </v-main>
   </v-app>
@@ -73,13 +75,13 @@ export default {
         key: "travels",
         name: "Kelionės",
         icon: 'mdi-map',
-        component: ItemView,
+        component: TravelView,
       },
       {
         key: "items",
         name: "Daiktai",
         icon: 'mdi-hammer-screwdriver',
-        component: TravelView,
+        component: ItemView,
       },
       {
         key: "bags",
