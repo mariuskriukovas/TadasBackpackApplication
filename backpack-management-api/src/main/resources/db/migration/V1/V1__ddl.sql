@@ -37,8 +37,9 @@ ALTER TABLE travel
 CREATE TABLE bag_item
 (
     id        IDENTITY PRIMARY KEY,
-    travel_id INT,
-    item_id   INT
+    quantity  INT NOT NULL,
+    travel_id INT NOT NULL,
+    item_id   INT NOT NULL
 );
 
 ALTER TABLE bag_item
