@@ -54,12 +54,35 @@
           </v-col>
           <v-col cols="6" sm="6">
             <v-select v-model="form.itemIds" :items="preselectedItems" clearable item-text="name"
-                      item-value="id" label="Daiktai" multiple></v-select>
+                      item-value="id" label="Daiktai" hint="Vienai kelionei galima viena daiktų kombinacija" multiple></v-select>
           </v-col>
         </v-row>
         <v-row>
           <v-col class="text-left" cols="12" sm="12">
-            <v-btn color="primary" depressed @click="save">Formuoti kuprinę !</v-btn>
+            <v-btn color="primary" depressed @click="saveBag">Formuoti kuprinę !</v-btn>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+    <v-card class="mt-4">
+      <v-card-title>
+        <span class="text-h5">Skaičiuoti kuprinės svorį</span>
+      </v-card-title>
+      <v-card-text>
+        <v-row>
+          <v-col cols="12" sm="12">
+            <v-select v-model="weightForm.travelId" :items="travels" clearable
+                      item-text="name" item-value="id" label="Kelionė"></v-select>
+          </v-col>
+        </v-row>
+        <v-row v-if="countedWeight">
+          <v-col class="text-center justify-center" cols="12" sm="12">
+            <v-chip color="blue" dark>{{ countedWeight }} kg.</v-chip>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col class="text-left" cols="12" sm="12">
+            <v-btn color="primary" depressed @click="countBagWeight">Skaičiuoti</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -77,7 +100,9 @@ export default {
   name: "BagView",
   inject: ['showSuccessAlert', 'showErrorAlert'],
   data: () => ({
-    name: "",
+    name: "BagView",
+    options: {},
+    totalElements: null,
     headers: [
       {
         text: "ID",
@@ -123,24 +148,29 @@ export default {
         align: "start",
       },
     ],
+
     filter: {
       travelId: null,
       travelerId: null,
       itemId: null,
     },
+
     form: {
       travelId: null,
       itemIds: [],
     },
+
+    weightForm: {
+      travelId: null,
+    },
+    countedWeight: null,
+
     items: [],
 
     travelers: [],
     travels: [],
     bagItems: [],
     preselectedItems: [],
-
-    options: {},
-    totalElements: null,
   }),
   computed: {},
   watch: {
@@ -165,8 +195,16 @@ export default {
       this.items = data?.content ?? []
       this.totalElements = data?.totalElements
     },
-    async save() {
+    async saveBag() {
       await BagApi.createBag(this.form).then(() => {
+        this.showSuccessAlert()
+      }).catch(() => {
+        this.showErrorAlert()
+      })
+    },
+    async countBagWeight() {
+      await TravelApi.countTravelBagWeight(this.weightForm?.travelId).then((val) => {
+        this.countedWeight = val
         this.showSuccessAlert()
       }).catch(() => {
         this.showErrorAlert()
