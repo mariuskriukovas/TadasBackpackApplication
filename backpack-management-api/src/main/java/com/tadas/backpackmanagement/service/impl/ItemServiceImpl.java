@@ -2,6 +2,7 @@ package com.tadas.backpackmanagement.service.impl;
 
 import com.tadas.backpackmanagement.mapper.ItemMapper;
 import com.tadas.backpackmanagement.model.view.ItemView;
+import com.tadas.backpackmanagement.model.view.PreselectedItemView;
 import com.tadas.backpackmanagement.repository.ItemRepository;
 import com.tadas.backpackmanagement.service.ItemService;
 import lombok.AccessLevel;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service("ItemService")
@@ -24,6 +28,18 @@ public class ItemServiceImpl implements ItemService {
     @Transactional(readOnly = true)
     public Page<ItemView> findAllItems(Pageable pageable) {
         return itemRepository.findAll(pageable).map(itemMapper::toItemView);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ItemView> findAllItems() {
+        return itemRepository.findAll().stream().map(itemMapper::toItemView).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PreselectedItemView> findAllPreselectedItems() {
+        return itemRepository.findAll().stream().map(itemMapper::toPreselectedItemView).collect(Collectors.toList());
     }
 
     @Override

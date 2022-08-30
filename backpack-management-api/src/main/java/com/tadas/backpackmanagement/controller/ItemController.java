@@ -1,6 +1,7 @@
 package com.tadas.backpackmanagement.controller;
 
 import com.tadas.backpackmanagement.model.view.ItemView;
+import com.tadas.backpackmanagement.model.view.PreselectedItemView;
 import com.tadas.backpackmanagement.service.ItemService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("v1/items")
@@ -21,10 +24,15 @@ public class ItemController {
         return itemService.findAllItems(pageable);
     }
 
-//    @GetMapping("/list")
-//    public List<TravelerView> getAllTravelers() {
-//        return travelerService.findAllTravelers();
-//    }
+    @GetMapping("/list")
+    public List<ItemView> getAllItems() {
+        return itemService.findAllItems();
+    }
+
+    @GetMapping("/preselectedList")
+    public List<PreselectedItemView> getPreselectedItems() {
+        return itemService.findAllPreselectedItems();
+    }
 
     @PostMapping
     public void addItem(@RequestBody ItemView view) {
