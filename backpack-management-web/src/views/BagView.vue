@@ -87,6 +87,24 @@
         </v-row>
       </v-card-text>
     </v-card>
+    <v-card class="mt-4">
+      <v-card-title>
+        <span class="text-h5">Išvalyti kuprinės turinį</span>
+      </v-card-title>
+      <v-card-text>
+        <v-row>
+          <v-col cols="12" sm="12">
+            <v-select v-model="clearTravelBagForm.travelId" :items="travels" clearable
+                      item-text="name" item-value="id" label="Kelionė"></v-select>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col class="text-left" cols="12" sm="12">
+            <v-btn color="primary" depressed @click="clearTravelBag">Išvalyti</v-btn>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
   </v-container>
 </template>
 
@@ -165,6 +183,10 @@ export default {
     },
     countedWeight: null,
 
+    clearTravelBagForm: {
+      travelId: null,
+    },
+
     items: [],
 
     travelers: [],
@@ -204,6 +226,14 @@ export default {
     },
     async countBagWeight() {
       await TravelApi.countTravelBagWeight(this.weightForm?.travelId).then((val) => {
+        this.countedWeight = val
+        this.showSuccessAlert()
+      }).catch(() => {
+        this.showErrorAlert()
+      })
+    },
+    async clearTravelBag() {
+      await TravelApi.clearTravelBag(this.clearTravelBagForm?.travelId).then((val) => {
         this.countedWeight = val
         this.showSuccessAlert()
       }).catch(() => {
