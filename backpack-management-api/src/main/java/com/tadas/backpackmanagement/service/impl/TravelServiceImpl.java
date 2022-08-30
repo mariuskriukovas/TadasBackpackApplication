@@ -12,6 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service("TravelService")
 @RequiredArgsConstructor
@@ -24,6 +27,12 @@ public class TravelServiceImpl implements TravelService {
     @Transactional(readOnly = true)
     public Page<TravelView> findAllTravels(Pageable pageable) {
         return travelRepository.findAll(pageable).map(travelMapper::toTravelView);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TravelView> findAllTravels() {
+        return travelRepository.findAll().stream().map(travelMapper::toTravelView).collect(Collectors.toList());
     }
 
     @Override

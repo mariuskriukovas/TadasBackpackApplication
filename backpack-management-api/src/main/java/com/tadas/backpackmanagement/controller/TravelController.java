@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("v1/travels")
 @RequiredArgsConstructor
@@ -19,6 +21,11 @@ public class TravelController {
     @GetMapping
     public Page<TravelView> getAllTravels(Pageable pageable) {
         return travelService.findAllTravels(pageable);
+    }
+
+    @GetMapping("/list")
+    public List<TravelView> getAllTravels() {
+        return travelService.findAllTravels();
     }
 
     @PostMapping
