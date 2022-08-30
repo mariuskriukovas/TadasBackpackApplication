@@ -33,4 +33,9 @@ public class TravelController {
         travelService.saveTravel(view);
     }
 
+    @GetMapping("/{id}/weight")
+    Double findTravelBagWeight(@PathVariable("id") Long id) {
+        return travelService.countTravelBagWeight(id);
+    }
+
 }

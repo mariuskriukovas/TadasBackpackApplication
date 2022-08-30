@@ -1,5 +1,6 @@
 package com.tadas.backpackmanagement.service.impl;
 
+import com.tadas.backpackmanagement.entity.Travel;
 import com.tadas.backpackmanagement.mapper.TravelMapper;
 import com.tadas.backpackmanagement.model.view.TravelView;
 import com.tadas.backpackmanagement.repository.TravelRepository;
@@ -43,5 +44,15 @@ public class TravelServiceImpl implements TravelService {
         } else {
             throw new RuntimeException(String.format("DistanceKilometers %s must be more than 0.", view.getDistanceKilometers()));
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Double countTravelBagWeight(Long id) {
+        Travel travel = travelRepository.findById(id).orElseThrow();
+
+        return travel.getBagItems().stream()
+                .map(i -> i.getItem().getWeight() * i.getQuantity())
+                .reduce((double) 0, Double::sum);
     }
 }

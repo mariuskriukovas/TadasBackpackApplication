@@ -12,4 +12,6 @@ public interface TravelService {
     List<TravelView> findAllTravels();
 
     void saveTravel(TravelView view);
+
+    Double countTravelBagWeight(Long id);
 }
