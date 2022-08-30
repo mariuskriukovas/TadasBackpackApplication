@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "item")
@@ -29,4 +30,7 @@ public class Item {
 
     @Column(name = "provide_kilometers")
     private Double provideKilometers;
+
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
+    List<BagItem> bagItems;
 }

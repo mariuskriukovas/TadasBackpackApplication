@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "travel")
@@ -27,4 +28,7 @@ public class Travel {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "traveler_id", nullable = false)
     Traveler traveler;
+    
+    @OneToMany(mappedBy = "travel", fetch = FetchType.LAZY)
+    List<BagItem> bagItems;
 }
