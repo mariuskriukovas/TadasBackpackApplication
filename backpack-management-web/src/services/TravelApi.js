@@ -9,4 +9,7 @@ export default {
   async addTravel(data) {
     return (await api.post("v1/travels", data))
   },
+  async getTravelsList() {
+    return (await api.get("v1/travels/list"))?.data
+  },
 };
