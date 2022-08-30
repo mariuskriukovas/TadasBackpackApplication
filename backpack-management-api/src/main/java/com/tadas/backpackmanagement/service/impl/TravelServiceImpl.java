@@ -1,8 +1,10 @@
 package com.tadas.backpackmanagement.service.impl;
 
+import com.tadas.backpackmanagement.entity.BagItem;
 import com.tadas.backpackmanagement.entity.Travel;
 import com.tadas.backpackmanagement.mapper.TravelMapper;
 import com.tadas.backpackmanagement.model.view.TravelView;
+import com.tadas.backpackmanagement.repository.BagItemRepository;
 import com.tadas.backpackmanagement.repository.TravelRepository;
 import com.tadas.backpackmanagement.service.TravelService;
 import lombok.AccessLevel;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TravelServiceImpl implements TravelService {
     TravelRepository travelRepository;
+    BagItemRepository bagItemRepository;
     TravelMapper travelMapper;
 
     @Override
@@ -54,5 +57,16 @@ public class TravelServiceImpl implements TravelService {
         return travel.getBagItems().stream()
                 .map(i -> i.getItem().getWeight() * i.getQuantity())
                 .reduce((double) 0, Double::sum);
+    }
+
+    @Override
+    @Transactional
+    public void clearTravelBag(Long id) {
+        Travel travel = travelRepository.findById(id).orElseThrow();
+
+        List<Long> bagItemsIds = travel.getBagItems().stream().map(BagItem::getId).toList();
+
+        // simplest solution, better implementation using CascadeType and orphanRemoval properties from travelRepository
+        bagItemRepository.deleteAllByIds(bagItemsIds);
     }
 }

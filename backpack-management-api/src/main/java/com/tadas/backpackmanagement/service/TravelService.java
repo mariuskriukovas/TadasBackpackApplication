@@ -14,4 +14,6 @@ public interface TravelService {
     void saveTravel(TravelView view);
 
     Double countTravelBagWeight(Long id);
+
+    void clearTravelBag(Long id);
 }
