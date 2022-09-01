@@ -24,7 +24,7 @@ Aplikacija kurta remiantis **OOP** ir **MVC** dizaino patternais.
 
 ## FE dalis
 
-Išbandyta naudojant **NODE v12.16.1** ir **NPM 6.13.4** versiją.
+Išbandyta naudojant **NODE v12.16.1** ir **NPM 6.13.4** versiją, kompiliuojama su **npm ci** ir startuojama **npm run serve** komandomis.
 Aplikacija sukurta naudojantis **vue 2.6** ir **vuetify 2.6.0** taip pat **axios** bibliotekomis.
 Minimalistinis dizainas sudeliotas remiantis **Material Design** principais.
 
@@ -48,8 +48,7 @@ kelionę. Aplikacija padeda suskaičiuoti kiekvienos kelionės svorį ir leidži
 
 ## P.S.
 
-Testai kol kas nerealizuoti, tai bus daroma vėlesnių iteracijų metu. Kol kas aplikacijoje nėra daiktų, kelionių ar pačių
-keliautojų duomenų redagavimo funkcionalumo. Duomenų validacijos, personalizuoti prenešimai ir klasifikatorių cachavimas taip pat bus realizuotas šiek tiek vėliau.
+Testai kol kas nerealizuoti, tai bus daroma vėlesnių iteracijų metu. Kol kas aplikacijoje nėra duomenų redagavimo funkcionalumo. Validacijos, personalizuoti prenešimai ir klasifikatorių cachavimas taip pat bus realizuotas šiek tiek vėliau.
 
 
 **Gerų kelionių :)** 
