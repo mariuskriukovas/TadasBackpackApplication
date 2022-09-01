@@ -12,10 +12,10 @@ export default {
   async getTravelsList() {
     return (await api.get("v1/travels/list"))?.data
   },
-  async countTravelBagWeight(id) {
+  async countTravelBackpackWeight(id) {
     return (await api.get(`v1/travels/${id}/weight`))?.data
   },
-  async clearTravelBag(id) {
-    return (await api.delete(`v1/travels/${id}/bagItems`))?.data
+  async clearTravelBackpack(id) {
+    return (await api.delete(`v1/travels/${id}/backpackItems`))?.data
   },
 };

@@ -233,7 +233,7 @@ export default {
       })
     },
     async countBagWeight() {
-      await TravelApi.countTravelBagWeight(this.weightForm?.travelId).then((val) => {
+      await TravelApi.countTravelBackpackWeight(this.weightForm?.travelId).then((val) => {
         this.countedWeight = val
         this.showSuccessAlert()
       }).catch(() => {
@@ -241,7 +241,7 @@ export default {
       })
     },
     async clearTravelBag() {
-      await TravelApi.clearTravelBag(this.clearTravelBagForm?.travelId).then((val) => {
+      await TravelApi.clearTravelBackpack(this.clearTravelBagForm?.travelId).then((val) => {
         this.countedWeight = val
         this.showSuccessAlert()
       }).catch(() => {
