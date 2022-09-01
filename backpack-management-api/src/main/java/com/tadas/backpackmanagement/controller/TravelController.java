@@ -38,7 +38,7 @@ public class TravelController {
         return travelService.countTravelBagWeight(id);
     }
 
-    @DeleteMapping("/{id}/bagItems")
+    @DeleteMapping("/{id}/backpackItems")
     void clearTravelBag(@PathVariable("id") Long id) {
         travelService.clearTravelBag(id);
     }
