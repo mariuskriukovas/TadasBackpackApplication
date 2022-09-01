@@ -12,7 +12,5 @@ public interface ItemService {
 
     List<ItemView> findAllItems();
 
-    List<PreselectedItemView> findAllPreselectedItems();
-
     void saveItem(ItemView view);
 }

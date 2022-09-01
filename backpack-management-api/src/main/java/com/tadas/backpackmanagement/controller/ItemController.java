@@ -29,11 +29,6 @@ public class ItemController {
         return itemService.findAllItems();
     }
 
-    @GetMapping("/preselectedList")
-    public List<PreselectedItemView> getPreselectedItems() {
-        return itemService.findAllPreselectedItems();
-    }
-
     @PostMapping
     public void addItem(@RequestBody ItemView view) {
         itemService.saveItem(view);

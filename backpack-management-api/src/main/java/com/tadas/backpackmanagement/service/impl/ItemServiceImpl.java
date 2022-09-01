@@ -37,12 +37,6 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<PreselectedItemView> findAllPreselectedItems() {
-        return itemRepository.findAll().stream().map(itemMapper::toPreselectedItemView).collect(Collectors.toList());
-    }
-
-    @Override
     @Transactional
     public void saveItem(ItemView view) {
         itemRepository.save(itemMapper.buildItemEntity(view));

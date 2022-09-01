@@ -12,7 +12,4 @@ public abstract class ItemMapper {
 
     public abstract Item buildItemEntity(ItemView view);
 
-    @Mapping(target = "selected", source = "isMandatory")
-    @Mapping(target = "disabled", source = "isMandatory")
-    public abstract PreselectedItemView toPreselectedItemView(Item entity);
 }

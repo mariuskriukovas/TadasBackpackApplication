@@ -18,7 +18,4 @@ public abstract class BagItemMapper {
     @Mapping(target = "item", expression = "java(itemMapper.toItemView(entity.getItem()))")
     public abstract BagItemView toBagItemView(BagItem entity);
 
-    @Mapping(target = "travel", expression = "java(travelMapper.buildTravelEntity(view.getTravel()))")
-    @Mapping(target = "item", expression = "java(itemMapper.buildItemEntity(view.getItem()))")
-    public abstract BagItem buildBagItemEntity(BagItemView view);
 }
