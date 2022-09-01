@@ -3,6 +3,9 @@
     <v-card class="mt-4">
       <v-card-title>
         <span class="text-h5"> Keliautojai </span>
+        <v-btn icon color="green" @click="refresh">
+          <v-icon>mdi-cached</v-icon>
+        </v-btn>
       </v-card-title>
       <v-card-text>
         <v-data-table
@@ -39,10 +42,13 @@
 import TravelersApi from '../services/TravelersApi.js'
 
 export default {
-  name: "TravelerView",
+  name: "Travelers",
   inject: ['showSuccessAlert', 'showErrorAlert'],
   data: () => ({
-    name: "",
+    items: [],
+    options: {},
+    totalElements: null,
+
     headers: [
       {
         text: "ID",
@@ -58,11 +64,7 @@ export default {
         align: "start",
       },
     ],
-    items: [],
-    options: {},
-    totalElements: null,
   }),
-  computed: {},
   watch: {
     options: {
       async handler() {
@@ -71,15 +73,18 @@ export default {
       deep: true,
     },
   },
-  async mounted() {
-    await this.getTravelers()
-  },
+  async mounted() {},
   methods: {
+    async refresh() {
+      await this.getTravelers()
+    },
+
     async getTravelers() {
       const data = await TravelersApi.getTravelers(this.options)
       this.items = data?.content ?? []
       this.totalElements = data?.totalElements
     },
+
     async save() {
       await TravelersApi.addTraveler({name: this.name}).then(() => {
         this.showSuccessAlert()

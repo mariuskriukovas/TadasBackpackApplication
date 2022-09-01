@@ -3,21 +3,24 @@
     <v-card class="mt-4">
       <v-card-title>
         <span class="text-h5"> Kuprinės </span>
+        <v-btn icon color="green" @click="refresh">
+          <v-icon>mdi-cached</v-icon>
+        </v-btn>
       </v-card-title>
       <v-card-text>
         <v-row>
           <v-col cols="6" sm="6">
-            <v-select v-model="filter.travelerId" :items="travelers" clearable
+            <v-select v-model="filter.travelerId" :items="travelersList" clearable
                       item-text="name" item-value="id" label="Keliautojas"></v-select>
           </v-col>
           <v-col cols="6" sm="6">
-            <v-select v-model="filter.travelId" :items="travels" clearable
+            <v-select v-model="filter.travelId" :items="travelsList" clearable
                       item-text="name" item-value="id" label="Kelionės"></v-select>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" sm="12">
-            <v-select v-model="filter.itemId" :items="bagItems" clearable
+            <v-select v-model="filter.itemId" :items="bagItemsList" clearable
                       item-text="name" item-value="id" label="Daiktai"></v-select>
           </v-col>
         </v-row>
@@ -49,17 +52,17 @@
       <v-card-text>
         <v-row>
           <v-col cols="6" sm="6">
-            <v-select v-model="form.travelId" :items="travels" clearable
+            <v-select v-model="form.travelId" :items="travelsList" clearable
                       item-text="name" item-value="id" label="Kelionė"></v-select>
           </v-col>
           <v-col cols="6" sm="6">
-            <v-select v-model="form.itemIds" :items="preselectedItems" clearable item-text="name"
+            <v-select v-model="form.itemIds" :items="itemsList" clearable item-text="name"
                       item-value="id" label="Daiktai" hint="Vienai kelionei galima viena daiktų kombinacija" multiple></v-select>
           </v-col>
         </v-row>
         <v-row>
           <v-col class="text-left" cols="12" sm="12">
-            <v-btn color="primary" depressed @click="saveBag">Formuoti kuprinę !</v-btn>
+            <v-btn color="primary" depressed @click="saveBackpack">Krauti kuprinę !</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -71,7 +74,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="12">
-            <v-select v-model="weightForm.travelId" :items="travels" clearable
+            <v-select v-model="weightForm.travelId" :items="travelsList" clearable
                       item-text="name" item-value="id" label="Kelionė"></v-select>
           </v-col>
         </v-row>
@@ -94,7 +97,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="12">
-            <v-select v-model="clearTravelBagForm.travelId" :items="travels" clearable
+            <v-select v-model="clearTravelBagForm.travelId" :items="travelsList" clearable
                       item-text="name" item-value="id" label="Kelionė"></v-select>
           </v-col>
         </v-row>
@@ -111,14 +114,15 @@
 <script>
 import TravelApi from '../services/TravelApi.js'
 import TravelersApi from '../services/TravelersApi.js'
-import BagApi from '../services/BagApi.js'
+import BagApi from '../services/BackpackApi.js'
 import ItemApi from '../services/ItemApi.js'
 
 export default {
-  name: "BagView",
+  name: "Backpack",
   inject: ['showSuccessAlert', 'showErrorAlert'],
   data: () => ({
     name: "BagView",
+    items: [],
     options: {},
     totalElements: null,
     headers: [
@@ -186,15 +190,12 @@ export default {
     clearTravelBagForm: {
       travelId: null,
     },
-
-    items: [],
-
-    travelers: [],
-    travels: [],
-    bagItems: [],
-    preselectedItems: [],
+    
+    travelersList: [],
+    travelsList: [],
+    bagItemsList: [],
+    itemsList: [],
   }),
-  computed: {},
   watch: {
     options: {
       async handler() {
@@ -204,21 +205,28 @@ export default {
     },
   },
   async mounted() {
-    await this.getBagItems()
-
-    await this.getTravelersForSelection()
-    await this.getTravelsForSelection()
-    await this.getItemsForSelection()
-    await this.getPreselectedItemsForSelection()
+    await this.loadClassifiers()
   },
   methods: {
+    async refresh() {
+      await this.getBagItems()
+      await this.loadClassifiers()
+    },
+
+    async loadClassifiers() {
+      await this.getTravelersForSelection()
+      await this.getTravelsForSelection()
+      await this.getItemsForSelection()
+      await this.getPreselectedItemsForSelection()
+    },
+
     async getBagItems() {
       const data = await BagApi.getBagItems(this.filter, this.options)
       this.items = data?.content ?? []
       this.totalElements = data?.totalElements
     },
-    async saveBag() {
-      await BagApi.createBag(this.form).then(() => {
+    async saveBackpack() {
+      await BagApi.packBackpack(this.form).then(() => {
         this.showSuccessAlert()
       }).catch(() => {
         this.showErrorAlert()
@@ -242,20 +250,26 @@ export default {
     },
     async getTravelersForSelection() {
       const data = await TravelersApi.getTravelersList()
-      this.travelers = data ?? []
+      this.travelersList = data ?? []
     },
     async getTravelsForSelection() {
       const data = await TravelApi.getTravelsList()
-      this.travels = data ?? []
+      this.travelsList = data ?? []
     },
     async getItemsForSelection() {
       const data = await ItemApi.getItemList()
-      this.bagItems = data ?? []
+      this.bagItemsList = data ?? []
     },
     async getPreselectedItemsForSelection() {
-      const data = await ItemApi.getPreselectedItems()
-      this.preselectedItems = data ?? []
-      this.form.itemIds = this.preselectedItems.filter(i => i.selected).map(e => e.id)
+      const data = await ItemApi.getItemList()
+      this.itemsList = data ? data.map(e=>{
+        return {
+          ...e,
+          selected: e?.isMandatory,
+          disabled: e?.isMandatory,
+        }
+      }) : []
+      this.form.itemIds = this.itemsList.filter(i => i.selected).map(e => e.id)
     },
   },
 };

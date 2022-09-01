@@ -46,20 +46,20 @@
 </template>
 
 <script>
-import TravelerView from "@/views/TravelerView.vue";
-import ItemView from "@/views/ItemView.vue";
-import TravelView from "@/views/TravelView.vue";
-import BagView from "@/views/BagView.vue";
+import Travelers from "@/views/Travelers.vue";
+import Items from "@/views/Items.vue";
+import Travels from "@/views/Travels.vue";
+import Backpack from "@/views/Backpack.vue";
 
 
 export default {
   name: "App",
 
   components: {
-    TravelerView,
-    ItemView,
-    TravelView,
-    BagView,
+    Travelers,
+    Items,
+    Travels,
+    Backpack,
   },
 
   data: () => ({
@@ -69,25 +69,25 @@ export default {
         key: "travelers",
         name: "Keliautojai",
         icon: 'mdi-walk',
-        component: TravelerView,
+        component: Travelers,
       },
       {
         key: "travels",
         name: "Kelionės",
         icon: 'mdi-map',
-        component: TravelView,
+        component: Travels,
       },
       {
         key: "items",
         name: "Daiktai",
         icon: 'mdi-hammer-screwdriver',
-        component: ItemView,
+        component: Items,
       },
       {
         key: "bags",
         name: "Kuprinės",
         icon: 'mdi-bag-checked',
-        component: BagView,
+        component: Backpack,
       },
     ],
     successAlert: false,

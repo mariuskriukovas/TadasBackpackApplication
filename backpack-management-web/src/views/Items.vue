@@ -3,6 +3,9 @@
     <v-card class="mt-4">
       <v-card-title>
         <span class="text-h5"> Daiktai </span>
+        <v-btn icon color="green" @click="refresh">
+          <v-icon>mdi-cached</v-icon>
+        </v-btn>
       </v-card-title>
       <v-card-text>
         <v-data-table
@@ -24,7 +27,7 @@
     </v-card>
     <v-card class="mt-4">
       <v-card-title>
-        <span class="text-h5"> Pridėti  kelionę</span>
+        <span class="text-h5"> Pridėti daiktą </span>
       </v-card-title>
       <v-card-text>
         <v-row>
@@ -59,10 +62,13 @@
 import ItemApi from '../services/ItemApi.js'
 
 export default {
-  name: "ItemView",
+  name: "Items",
   inject: ['showSuccessAlert', 'showErrorAlert'],
   data: () => ({
-    name: "",
+    items: [],
+    options: {},
+    totalElements: null,
+
     headers: [
       {
         text: "ID",
@@ -102,7 +108,6 @@ export default {
       provideKilometers: null,
       weight: null,
     },
-    items: [],
     yesNoItems: [
       {
         name: 'Taip',
@@ -113,10 +118,7 @@ export default {
         value: false
       }
     ],
-    options: {},
-    totalElements: null,
   }),
-  computed: {},
   watch: {
     options: {
       async handler() {
@@ -125,15 +127,17 @@ export default {
       deep: true,
     },
   },
-  async mounted() {
-    await this.getItems()
-  },
   methods: {
+    async refresh(){
+      await this.getItems()
+    },
+
     async getItems() {
       const data = await ItemApi.getItems(this.options)
       this.items = data?.content ?? []
       this.totalElements = data?.totalElements
     },
+
     async save() {
       await ItemApi.addItem(this.form).then(() => {
         this.showSuccessAlert()

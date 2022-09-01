@@ -3,6 +3,9 @@
     <v-card class="mt-4">
       <v-card-title>
         <span class="text-h5"> Kelionės </span>
+        <v-btn icon color="green" @click="refresh">
+          <v-icon>mdi-cached</v-icon>
+        </v-btn>
       </v-card-title>
       <v-card-text>
         <v-data-table
@@ -52,10 +55,13 @@ import TravelApi from '../services/TravelApi.js'
 import TravelersApi from '../services/TravelersApi.js'
 
 export default {
-  name: "TravelView",
+  name: "Travels",
   inject: ['showSuccessAlert', 'showErrorAlert'],
   data: () => ({
-    name: "",
+    items: [],
+    options: {},
+    totalElements: null,
+
     headers: [
       {
         text: "ID",
@@ -88,12 +94,8 @@ export default {
       distanceKilometers: null,
       traveler: null,
     },
-    items: [],
     travelers: [],
-    options: {},
-    totalElements: null,
   }),
-  computed: {},
   watch: {
     options: {
       async handler() {
@@ -103,10 +105,14 @@ export default {
     },
   },
   async mounted() {
-    await this.getTravels()
     await this.getTravelersForSelection()
   },
   methods: {
+    async refresh() {
+      await this.getTravels()
+      await this.getTravelersForSelection()
+    },
+
     async getTravels() {
       const data = await TravelApi.getTravels(this.options)
       this.items = data?.content ?? []

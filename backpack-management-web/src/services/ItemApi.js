@@ -12,7 +12,4 @@ export default {
   async getItemList() {
     return (await api.get("v1/items/list"))?.data
   },
-  async getPreselectedItems() {
-    return (await api.get("v1/items/preselectedList"))?.data
-  },
 };
