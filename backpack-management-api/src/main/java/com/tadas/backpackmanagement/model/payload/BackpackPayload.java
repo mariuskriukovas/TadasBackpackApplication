@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class BagPayload {
+public class BackpackPayload {
     Long travelId;
     List<Long> itemIds;
 }

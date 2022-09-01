@@ -4,13 +4,13 @@ import com.tadas.backpackmanagement.entity.BagItem;
 import com.tadas.backpackmanagement.entity.Item;
 import com.tadas.backpackmanagement.entity.Travel;
 import com.tadas.backpackmanagement.mapper.BagItemMapper;
-import com.tadas.backpackmanagement.model.payload.BagPayload;
+import com.tadas.backpackmanagement.model.payload.BackpackPayload;
 import com.tadas.backpackmanagement.model.query.BagQuery;
 import com.tadas.backpackmanagement.model.view.BagItemView;
 import com.tadas.backpackmanagement.repository.BagItemRepository;
 import com.tadas.backpackmanagement.repository.ItemRepository;
 import com.tadas.backpackmanagement.repository.TravelRepository;
-import com.tadas.backpackmanagement.service.BagService;
+import com.tadas.backpackmanagement.service.BackpackService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,10 +23,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@Service("BagService")
+@Service("BackpackService")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class BagServiceImpl implements BagService {
+public class BackpackServiceImpl implements BackpackService {
     BagItemRepository bagItemRepository;
     ItemRepository itemRepository;
     TravelRepository travelRepository;
@@ -40,7 +40,7 @@ public class BagServiceImpl implements BagService {
 
     @Override
     @Transactional
-    public void formatBag(BagPayload payload) {
+    public void packBackpack(BackpackPayload payload) {
         Travel travel = travelRepository.findById(payload.getTravelId()).orElseThrow();
         List<Item> items = itemRepository.findAllByIds(payload.getItemIds());
 
